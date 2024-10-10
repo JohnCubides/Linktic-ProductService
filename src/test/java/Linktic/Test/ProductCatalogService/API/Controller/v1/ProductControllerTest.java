@@ -35,8 +35,8 @@ public class ProductControllerTest {
     @Test
     public void testGetAllProducts() throws Exception {
         // Configuración del mock
-        ProductDTO product1 = new ProductDTO(1L, "Producto 1", "Descripción 1", 10.0);
-        ProductDTO product2 = new ProductDTO(2L, "Producto 2", "Descripción 2", 20.0);
+        ProductDTO product1 = new ProductDTO(1L, "Producto 1", "Descripción 1", 10.0, 1L);
+        ProductDTO product2 = new ProductDTO(2L, "Producto 2", "Descripción 2", 20.0, 1L);
         List<ProductDTO> productList = Arrays.asList(product1, product2);
 
         Mockito.when(productService.getAllProducts()).thenReturn(productList);
@@ -53,7 +53,7 @@ public class ProductControllerTest {
     @Test
     public void testGetProductById() throws Exception {
         // Configuración del mock
-        ProductDTO product = new ProductDTO(1L, "Producto 1", "Descripción 1", 10.0);
+        ProductDTO product = new ProductDTO(1L, "Producto 1", "Descripción 1", 10.0, 1L);
         Mockito.when(productService.getProductById(1L)).thenReturn(product);
 
         // Ejecución de la prueba
@@ -68,8 +68,8 @@ public class ProductControllerTest {
     public void testCreateProduct() throws Exception {
 
         // Configuración del mock
-        ProductDTO productDTO = new ProductDTO(null, "Nuevo Producto", "Nueva Descripción", 15.0);
-        ProductDTO savedProduct = new ProductDTO(3L, "Nuevo Producto", "Nueva Descripción", 15.0);
+        ProductDTO productDTO = new ProductDTO(null, "Nuevo Producto", "Nueva Descripción", 15.0, 1L);
+        ProductDTO savedProduct = new ProductDTO(3L, "Nuevo Producto", "Nueva Descripción", 15.0, 1L);
 
         Mockito.when(productService.saveProduct(Mockito.any(ProductDTO.class))).thenReturn(savedProduct);
 

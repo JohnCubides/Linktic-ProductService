@@ -3,6 +3,7 @@ package Linktic.Test.ProductCatalogService.Application.Services.Unit;
 import Linktic.Test.ProductCatalogService.Application.DTO.ProductDTO;
 import Linktic.Test.ProductCatalogService.Application.Mapper.ProductMapper;
 import Linktic.Test.ProductCatalogService.Application.Services.ProductService;
+import Linktic.Test.ProductCatalogService.Core.Entity.Category;
 import Linktic.Test.ProductCatalogService.Core.Entity.Product;
 import Linktic.Test.ProductCatalogService.Core.Repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,10 +37,10 @@ class ProductServiceTest {
     @Test
     void shouldReturnAllProducts() {
         // Arrange
-        Product product1 = new Product(1L, "Product 1", "Description 1", 100.0);
-        Product product2 = new Product(2L, "Product 2", "Description 2", 150.0);
-        ProductDTO productDTO1 = new ProductDTO(1L, "Product 1", "Description 1", 100.0);
-        ProductDTO productDTO2 = new ProductDTO(2L, "Product 2", "Description 2", 150.0);
+        Product product1 = new Product(1L, "Product 1", "Description 1", 100.0, new Category(1L,"test","des"));
+        Product product2 = new Product(2L, "Product 2", "Description 2", 150.0, new Category(1L,"test","des"));
+        ProductDTO productDTO1 = new ProductDTO(1L, "Product 1", "Description 1", 100.0, 1L);
+        ProductDTO productDTO2 = new ProductDTO(2L, "Product 2", "Description 2", 150.0, 1L);
 
         when(productRepository.findAll()).thenReturn(Arrays.asList(product1, product2));
         when(productMapper.toProductDTO(product1)).thenReturn(productDTO1);
@@ -55,8 +56,8 @@ class ProductServiceTest {
     @Test
     void shouldReturnProductById() {
 
-        Product product = new Product(1L, "Product 1", "Description 1", 100.0);
-        ProductDTO productDTO = new ProductDTO(1L, "Product 1", "Description 1", 100.0);
+        Product product = new Product(1L, "Product 1", "Description 1", 100.0, new Category(1L,"test","des"));
+        ProductDTO productDTO = new ProductDTO(1L, "Product 1", "Description 1", 100.0, 1L);
 
         when(productRepository.findById(1L)).thenReturn(java.util.Optional.of(product));
         when(productMapper.toProductDTO(product)).thenReturn(productDTO);
@@ -86,10 +87,10 @@ class ProductServiceTest {
     @Test
     void shouldSaveProduct() {
         // Arrange
-        ProductDTO productDTO = new ProductDTO(null, "Product 1", "Description 1", 100.0);
-        Product product = new Product(null, "Product 1", "Description 1", 100.0);
-        Product savedProduct = new Product(1L, "Product 1", "Description 1", 100.0);
-        ProductDTO savedProductDTO = new ProductDTO(1L, "Product 1", "Description 1", 100.0);
+        ProductDTO productDTO = new ProductDTO(null, "Product 1", "Description 1", 100.0, 1L);
+        Product product = new Product(null, "Product 1", "Description 1", 100.0, new Category(1L,"test","des"));
+        Product savedProduct = new Product(1L, "Product 1", "Description 1", 100.0, new Category(1L,"test","des"));
+        ProductDTO savedProductDTO = new ProductDTO(1L, "Product 1", "Description 1", 100.0, 1L);
 
         when(productMapper.toProduct(productDTO)).thenReturn(product);
         when(productRepository.save(product)).thenReturn(savedProduct);
