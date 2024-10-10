@@ -1,19 +1,26 @@
 package Linktic.Test.ProductCatalogService.Configuration;
 
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@OpenAPIDefinition(
-        info = @Info(
-                title = "Product Catalog API",
-                version = "v1",
-                description = "API documentation for the Product Catalog Service"
-        )
-)
 public class SwaggerConfig {
-}
 
+        @Bean
+        public GroupedOpenApi apiV1() {
+                return GroupedOpenApi.builder()
+                        .group("v1")
+                        .pathsToMatch("/api/v1/**")
+                        .build();
+        }
+
+        @Bean
+        public GroupedOpenApi apiV2() {
+                return GroupedOpenApi.builder()
+                        .group("v2")
+                        .pathsToMatch("/api/v2/**")
+                        .build();
+        }
+}
