@@ -5,6 +5,7 @@ import Linktic.Test.ProductCatalogService.Application.Mapper.ProductMapper;
 import Linktic.Test.ProductCatalogService.Application.Services.ProductService;
 import Linktic.Test.ProductCatalogService.Core.Entity.Category;
 import Linktic.Test.ProductCatalogService.Core.Entity.Product;
+import Linktic.Test.ProductCatalogService.Core.Exception.ProductNotFoundException;
 import Linktic.Test.ProductCatalogService.Core.Repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class ProductServiceTest {
@@ -72,15 +74,12 @@ class ProductServiceTest {
     }
 
     @Test
-    void shouldReturnNullWhenProductNotFound() {
+    void shouldThrowExceptionWhenProductNotFound() {
         // Arrange
         when(productRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 
-        // Act
-        ProductDTO result = productService.getProductById(1L);
-
-        // Assert
-        assertEquals(null, result);
+        // Act & Assert
+        assertThrows(ProductNotFoundException.class, () -> productService.getProductById(1L));
         verify(productRepository, times(1)).findById(1L);
     }
 

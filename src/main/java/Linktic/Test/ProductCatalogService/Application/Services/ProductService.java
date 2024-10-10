@@ -3,6 +3,7 @@ package Linktic.Test.ProductCatalogService.Application.Services;
 import Linktic.Test.ProductCatalogService.Application.DTO.ProductDTO;
 import Linktic.Test.ProductCatalogService.Application.Mapper.ProductMapper;
 import Linktic.Test.ProductCatalogService.Core.Entity.Product;
+import Linktic.Test.ProductCatalogService.Core.Exception.ProductNotFoundException;
 import Linktic.Test.ProductCatalogService.Core.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class ProductService {
     public ProductDTO getProductById(Long id) {
         return productRepository.findById(id)
                 .map(productMapper::toProductDTO)
-                .orElse(null);
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + id + " not found"));
     }
 
     public ProductDTO saveProduct(ProductDTO productDTO) {
