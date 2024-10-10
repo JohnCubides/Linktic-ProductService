@@ -1,0 +1,59 @@
+@startuml
+skinparam rectangle {
+    BackgroundColor white
+    BorderColor black
+    RoundCorner 15
+}
+
+' Set the direction of the diagram to top-down
+top to bottom direction
+
+' API Layer - Communicates with the Application Layer
+package "API Layer" as API {
+    rectangle "Product Controller\n(ProductController)" as ProductController
+    rectangle "Category Controller\n(CategoryController)" as CategoryController
+    rectangle "Swagger API Documentation\n(Springdoc OpenAPI)" as Swagger
+}
+
+' Application Layer - Wraps the Core Layer
+package "Application Layer" as Application {
+    rectangle "Product Service\n(ProductService)" as ProductService
+    rectangle "Category Service\n(CategoryService)" as CategoryService
+}
+
+' Core Layer - The innermost layer
+package "Core Layer" as Core {
+    rectangle "Entities\n- Product\n- Category" as Entities
+    rectangle "Repository Interfaces\n- ProductRepository\n- CategoryRepository" as Repositories
+    rectangle "Custom Exceptions\n- ProductNotFoundException" as Exceptions
+}
+
+' Infrastructure Layer - For database and future external integrations
+package "Infrastructure Layer" as Infrastructure {
+    database "PostgreSQL" as DB
+    rectangle "Future Integrations\n(e.g., Messaging Services, External APIs)" as FutureIntegrations
+}
+
+' Configuration Layer - External setup and configurations
+package "Configuration Layer" as Configuration {
+    file "application.yml\n(Database & Logging Configuration)" as YML
+}
+
+' Connections and Dependencies
+ProductController --> ProductService
+CategoryController --> CategoryService
+
+ProductService --> Repositories
+CategoryService --> Repositories
+
+Repositories --> DB : "Managed by Spring Data JPA"
+
+YML --> DB : "Configures"
+
+' Swagger Documentation link
+ProductController --> Swagger : "Documented by"
+CategoryController --> Swagger : "Documented by"
+
+' Future integration connections
+FutureIntegrations ..> Application : "Possible future connections"
+@enduml

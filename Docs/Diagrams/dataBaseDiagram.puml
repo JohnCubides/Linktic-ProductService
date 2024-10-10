@@ -1,0 +1,19 @@
+@startuml
+entity "Product" {
+    + Long id
+    --
+    name : String
+    description : String
+    price : double
+    category_id : Long
+}
+
+entity "Category" {
+    + Long id
+    --
+    name : String
+    description : String (optional)
+}
+
+Product }o--|| Category : "category_id"
+@enduml
